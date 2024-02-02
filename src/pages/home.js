@@ -1,20 +1,42 @@
 import * as React from "react"
 import "./style.css"
 
+import TableContents from "../components/TableContents";
+
 const HomePage = () => {
   return (
     <div className="page">
+      <header className="top-header">
+        {/* <button className="sidebar-toggle">abrir manolo</button> */}
+        {/* <input type="checkbox" id="sidebar-toggle" /> */}
+        <label htmlFor="sidebar-toggle" aria-label="Expand sidebar">teste</label>
+        <nav className="breadcrumbs">
+          <ol>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Calculo I</a></li>
+            <li><a href="#">Limites</a></li>
+          </ol>
+        </nav>
+      </header>
       <div className="main-wrapper">
         {/* Left sidebar */}
+        <input type="checkbox" id="sidebar-toggle" />
+        <label 
+          className="collapse-sidebar" 
+          htmlFor="sidebar-toggle" 
+          aria-label="Collapse sidebar"
+        >
+          <span></span>
+        </label>
         <aside className="sidebar">
           <div className="course-contents">
             <h2 className="title">Calculo I</h2>
 
             <nav className="topics">
               <ol>
-                <li>Limites</li>
-                <li>Derivadas</li>
-                <li>Integrais</li>
+                <li><a href="#">Limites</a></li>
+                <li><a href="#">Derivadas</a></li>
+                <li><a href="#">Integrais</a></li>
               </ol>
             </nav>
           </div>
@@ -22,15 +44,20 @@ const HomePage = () => {
 
         {/* Main text */}
         <main className="markdown">
-          <nav className="breadcrumbs">
+          {/* <nav className="breadcrumbs">
             <ol>
               <li><a href="#">Home</a></li>
               <li><a href="#">Calculo I</a></li>
               <li><a href="#">Limites</a></li>
             </ol>
-          </nav>
+          </nav> */}
 
           <h1 className="title">Limites</h1>
+          {/* Table of Contents is gonna be inserted here */}
+          <div className="in-main-wrapper">
+            <TableContents />
+          </div>
+
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce non velit in neque mattis molestie eget dictum erat. Donec dui dolor, volutpat quis leo sit amet, porta euismod urna. Proin nunc risus, tincidunt non auctor sed, laoreet ac eros. Aliquam metus libero, dapibus vel ultricies a, scelerisque nec lectus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Ut dapibus sodales pulvinar. Duis ex orci, vestibulum congue augue quis, commodo sollicitudin lacus. Donec imperdiet vehicula massa id congue.
           </p>
@@ -45,7 +72,7 @@ const HomePage = () => {
         </main>
 
         {/* Table of contents */}
-        <aside className="contents-wrapper">
+        {/* <aside className="contents-wrapper">
           <nav className="contents">
             <header>Sumário</header>
             <ul>
@@ -54,6 +81,9 @@ const HomePage = () => {
               <li><a href="#">Limites Infinitos</a></li>
             </ul>
           </nav>
+        </aside> */}
+        <aside className="sidebar-right">
+          <TableContents />
         </aside>
       </div>
     </div>
