@@ -7,9 +7,12 @@ const HomePage = () => {
   return (
     <div className="page">
       <header className="top-header">
-        {/* <button className="sidebar-toggle">abrir manolo</button> */}
-        {/* <input type="checkbox" id="sidebar-toggle" /> */}
-        <label htmlFor="sidebar-toggle" aria-label="Expand sidebar">teste</label>
+        <label 
+          className="expand-sidebar" 
+          htmlFor="sidebar-toggle" 
+          aria-label="Expand sidebar">
+          <span></span>
+        </label>
         <nav className="breadcrumbs">
           <ol>
             <li><a href="#">Home</a></li>
@@ -22,10 +25,9 @@ const HomePage = () => {
         {/* Left sidebar */}
         <input type="checkbox" id="sidebar-toggle" />
         <label 
-          className="collapse-sidebar" 
-          htmlFor="sidebar-toggle" 
-          aria-label="Collapse sidebar"
-        >
+          className="collapse-sidebar"
+          htmlFor="sidebar-toggle"
+          aria-label="Collapse sidebar">
           <span></span>
         </label>
         <aside className="sidebar">

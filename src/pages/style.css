@@ -88,6 +88,50 @@ p {
   color: var(--text-primary);
 }
 
+.expand-sidebar {
+  position: relative;
+  width: 2.5rem;
+  height: 2.2rem;
+  cursor: pointer;
+  border-radius: 10%;
+  transition: background-color 150ms;
+  
+  /* Display flex is gonna be defined in the media query. */
+  display: none;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.expand-sidebar:hover {
+  background-color: #373665;
+}
+
+.expand-sidebar > span {
+  position: relative;
+}
+
+.expand-sidebar > span,
+.expand-sidebar > span::before,
+.expand-sidebar > span::after 
+{
+  width: 1.5rem;
+  height: 2px;
+  background-color: var(--text-secondary);
+}
+
+.expand-sidebar > span::before {
+  position: absolute;
+  content: '';
+  top: -6px;
+}
+
+.expand-sidebar > span::after {
+  position: absolute;
+  content: '';
+  top: 6px;
+}
+
 .collapse-sidebar {
   background-color: rgba(0, 0, 0, 0.5);
   width: 100%;
@@ -236,12 +280,16 @@ p {
     justify-content: center;
   }
 
+  /* ### SIDEBAR ### */
   .sidebar {
     display: none;
     border-right: 1px solid var(--background-secondary);
     position: fixed;
     left: 0;
-    /* top: var(--header-height); */
+  }
+
+  .expand-sidebar {
+    display: flex;
   }
 
   /* Show sidebar */
