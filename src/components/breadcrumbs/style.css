@@ -1,0 +1,24 @@
+.breadcrumbs {
+  width: 100%;
+  text-align: center;
+  font-size: var(--font-size-small);
+}
+
+.breadcrumbs li {
+  display: inline;
+  font-weight: bold;
+}
+
+.breadcrumbs li+li::before {
+  content: ">";
+  padding: 0 0.5rem;
+  color: var(--text-secondary);
+}
+
+.breadcrumbs a {
+  color: var(--text-secondary);
+}
+
+.breadcrumbs a:hover {
+  text-decoration: underline;
+}

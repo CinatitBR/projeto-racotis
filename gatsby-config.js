@@ -26,8 +26,8 @@ module.exports = {
   {
     resolve: 'gatsby-source-filesystem',
     options: {
-      name: "courses",
-      path: "./courses/"
+      name: "content",
+      path: "./content/"
     }
   }]
 };

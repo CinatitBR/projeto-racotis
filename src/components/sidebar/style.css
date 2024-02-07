@@ -1,0 +1,38 @@
+.sidebar {
+  background-color: var(--background-primary);
+  padding: var(--padding-lg);
+  height: 100vh;
+}
+
+.course-contents .title {
+  color: var(--text-secondary);
+  font-weight: bold;
+  margin-bottom: 0.8rem;
+}
+
+.course-contents a {
+  display: inline-block;
+  color: var(--text-primary);
+  padding: 0.4rem;
+}
+
+.course-contents a:hover {
+  text-decoration: underline;
+}
+
+.course-contents a.selected {
+  font-weight: bold;
+  background-color: #3b3a60;
+}
+
+/* Sidebar overlay */
+.collapse-sidebar {
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  display: none;
+}

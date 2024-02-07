@@ -1,17 +1,21 @@
 import * as React from 'react'
 
-const TableContents = () => {
-  // const listItems = links.map(link => <li><a href="#">{link.text}</a></li>);
+const TableContents = ({ toc }) => {
 
+  // Return null if toc is undefined.
+  if (!toc) 
+    return null
+  
 	return (
 		<section className="contents">
 			<header>Sumário</header>
 			<nav>
 				<ul>
-          {/* {listItems} */}
-					<li><a href="#">O Teste da Integral</a></li>
-					<li><a href="#">Sequências</a></li>
-					<li><a href="#">Limites Infinitos</a></li>
+          {
+            toc.map(content =>
+              <li key={content.url}><a href={content.url}>{content.title}</a></li>  
+            )
+          }
 				</ul>
 			</nav>
 		</section>
