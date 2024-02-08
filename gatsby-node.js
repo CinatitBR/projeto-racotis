@@ -1,15 +1,14 @@
-const { createFilePath } = require(`gatsby-source-filesystem`)
 const path = require('path')
+const { createFilePath } = require(`gatsby-source-filesystem`)
 
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions
 
-  // Check if node is of type mdx.
   if ( node.internal.type === "Mdx" ) {
-    // Get the path of markdown files inside the `/content` directory.
+    // Get the relative path of markdown files inside the `content` directory.
     const filePath = createFilePath({ node, getNode, basePath: 'content' })
 
-    // Create slug field on the node.
+    // Add field "slug" to the node.
     createNodeField({
       node,
       name: "slug",
@@ -26,10 +25,14 @@ exports.createPages = async ({ graphql, actions }) => {
     query {
       allMdx(filter: {internal: {contentFilePath: {regex: "/courses/"}}}) {
         nodes {
+          frontmatter {
+            course
+          }
           fields {
             slug
           }
           id
+          tableOfContents
         }
       }
     }
@@ -45,8 +48,10 @@ exports.createPages = async ({ graphql, actions }) => {
       path: module.fields.slug,
       component: template,
       context: {
+        course: module.frontmatter.course,
+        courseSlug,
         id: module.id,
-        courseSlug
+        toc: module.tableOfContents.items,
       }
     })
   })

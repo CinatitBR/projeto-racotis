@@ -1,48 +1,133 @@
 import * as React from "react"
-import { graphql } from "gatsby"
-import { Link } from "gatsby"
+import { graphql, Link } from "gatsby"
 
-const chaptersData = {}
+import Sidebar from "../components/sidebar"
+import Breadcrumbs from "../components/breadcrumbs"
+import TableContents from "../components/table-contents"
 
-const Test = ({ pageContext, data }) => {
-  console.log(pageContext)
 
+
+const Test = ({ children, pageContext, data }) => {
+  const [showSidebar, setShowSidebar] = React.useState(false)
   const modules = data.allMdx.nodes
+  console.log(pageContext)
   
+  // Fill chapters object with data.
+  const chapters = {}
   modules.forEach(module => {
     const moduleChapter = module.frontmatter.chapter
     const moduleTitle = module.frontmatter.title
     const slug = module.fields.slug
 
-    if (!chaptersData[moduleChapter]) {
-      chaptersData[moduleChapter] = []
+    if (!chapters[moduleChapter]) {
+      chapters[moduleChapter] = []
     }
 
-    chaptersData[moduleChapter].push({ 
+    chapters[moduleChapter].push({ 
+      id: module.id,
       title: moduleTitle,
-      slug 
+      slug
     })
   })
 
+  const toggleSidebar = () => setShowSidebar(!showSidebar)
+  
+  /*
+    This function will be called by the Link component, to tell
+    if a link is active.
+    Read "Reach Router" documentation.
+  */
+  const isActive = ({ isCurrent }) => {
+    return isCurrent ? { className: "selected" } : {}
+  }
+
   return (
-    <div>
-      Olá amigo novamente.
+    <div className="post">
+      {/* Olá amigo novamente. */}
+      <header className="top-header">
+        <label 
+          className="expand-sidebar" 
+          htmlFor="sidebar-toggle" 
+          aria-label="Expand sidebar">
+          <span></span>
+        </label>
+        <Breadcrumbs />
+      </header>
 
-      {
-        Object.keys(chaptersData).map(chapter => 
-          <ol key={chapter}>
-            <h3>{chapter}</h3>
+      <div className="main-wrapper">
+        {/* Left sidebar */}
+        <Sidebar
+        show={showSidebar}
+        onToggle={toggleSidebar}
+        title={pageContext.course}
+        >
+          {
+            Object.keys(chapters).map(chapterTitle => 
+              <ol key={chapterTitle}>
+                <h3>{chapterTitle}</h3>
 
-            {
-              chaptersData[chapter].map(module => 
-                <li key={module.title}><Link to={module.slug}>{module.title}</Link></li>
-              )
-            }
-          </ol>
-        )
-      }
+                {
+                  chapters[chapterTitle].map(module =>
+                    <li key={module.id}>
+                      <Link to={module.slug} getProps={isActive}>{module.title}</Link>
+                    </li>
+                  )
+                }
+              </ol>
+            )
+          }
+        </Sidebar>
+
+        {/* Main text */}
+        <main className="markdown">
+          <div className="in-main-wrapper">
+            <TableContents toc={pageContext.toc} />
+          </div>
+          {/* {children} */}
+        </main>
+
+        <aside className="sidebar-right">
+          <TableContents toc={pageContext.toc} />
+        </aside>
+      </div>
     </div>
   )
+
+  // return (
+  //   <div className="post">
+  //     <header className="top-header">
+  //       <label 
+  //         className="expand-sidebar" 
+  //         htmlFor="sidebar-toggle" 
+  //         aria-label="Expand sidebar">
+  //         <span></span>
+  //       </label>
+  //       <Breadcrumbs />
+  //     </header>
+
+  //     <div className="main-wrapper">
+  //       {/* Left sidebar */}
+  //       <Sidebar 
+  //         show={showSidebar}
+  //         onToggle={toggleSidebar}
+  //         chapters={chapters} 
+  //         course={course}
+  //       />
+
+  //       {/* Main text */}
+  //       <main className="markdown">
+  //         <div className="in-main-wrapper">
+  //           <TableContents toc={toc} />
+  //         </div>
+  //         {children}
+  //       </main>
+
+  //       <aside className="sidebar-right">
+  //         <TableContents toc={toc} />
+  //       </aside>
+  //     </div>
+  //   </div>
+  // )
 }
 
 export default Test
@@ -64,6 +149,7 @@ export const query = graphql`
         fields {
           slug
         }
+        id
       }
     }
   }

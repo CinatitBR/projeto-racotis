@@ -1,20 +1,10 @@
 import * as React from 'react'
-import { Link } from "gatsby"
 import './style.css'
 
-const Sidebar = ({ show, onToggle, chapters, course }) => {
-
-  /*
-    This function will be called by the Link component, to tell
-    if a link is active.
-    Read "Reach Router" documentation.
-  */
-  const isActive = ({ isCurrent }) => {
-    return isCurrent ? { className: "selected" } : {}
-  }
+const Sidebar = ({ children, show, onToggle, title }) => {
 
   return <React.Fragment>
-    {/* This checkbos toggles the sidebar through the style :checked */}
+    {/* This checkbox toggles the sidebar through the style :checked */}
     <input 
       type="checkbox" 
       id="sidebar-toggle"
@@ -32,20 +22,9 @@ const Sidebar = ({ show, onToggle, chapters, course }) => {
 
     <aside className="sidebar">
       <div className="course-contents">
-        <h2 className="title">{course}</h2>
-
+        <h2 className="title">{title}</h2>
         <nav className="topics">
-          <ol>
-            {
-              chapters.map(chapter =>
-                <li key={chapter.id}>
-                  <Link to={`/${chapter.frontmatter.slug}`} getProps={isActive}>
-                    {chapter.frontmatter.title}
-                  </Link>
-                </li>
-              )
-            }
-          </ol>
+          {children}
         </nav>
       </div>
     </aside>
