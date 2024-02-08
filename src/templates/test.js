@@ -2,15 +2,14 @@ import * as React from "react"
 import { graphql } from "gatsby"
 import { Link } from "gatsby"
 
+const chaptersData = {}
+
 const Test = ({ pageContext, data }) => {
   console.log(pageContext)
 
-  const courseModules = data.allMdx.nodes
-  // console.log(courseModules)
-
-  const chaptersData = {}
+  const modules = data.allMdx.nodes
   
-  courseModules.forEach(module => {
+  modules.forEach(module => {
     const moduleChapter = module.frontmatter.chapter
     const moduleTitle = module.frontmatter.title
     const slug = module.fields.slug
@@ -23,10 +22,7 @@ const Test = ({ pageContext, data }) => {
       title: moduleTitle,
       slug 
     })
-
   })
-
-  console.log("Aqui: ", chaptersData)
 
   return (
     <div>
