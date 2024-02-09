@@ -1,3 +1,6 @@
+/* To-do: Download font files locally instead of importing. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
 *, ::after, ::before {
   box-sizing: border-box;
 }
@@ -21,7 +24,8 @@
 
 html {
   height: 100%;
-  font-family: sans-serif;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.05rem;
 }
 
 body {

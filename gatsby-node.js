@@ -28,6 +28,7 @@ exports.createPages = async ({ graphql, actions }) => {
         nodes {
           frontmatter {
             course
+            title
           }
           fields {
             slug
@@ -55,6 +56,7 @@ exports.createPages = async ({ graphql, actions }) => {
         course: module.frontmatter.course,
         courseSlug,
         id: module.id,
+        title: module.frontmatter.title,
         toc: module.tableOfContents.items,
       }
     })

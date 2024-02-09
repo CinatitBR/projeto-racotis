@@ -11,6 +11,7 @@ import "./style.css"
 const CourseTemplate = ({ children, pageContext, data }) => {
   const [showSidebar, setShowSidebar] = React.useState(false)
   const modules = data.allMdx.nodes
+  let title, course
   
   // Fill chapters object with data.
   const chapters = {}
@@ -80,6 +81,7 @@ const CourseTemplate = ({ children, pageContext, data }) => {
 
         {/* Main text */}
         <main className="markdown">
+          <h1 className="title">{pageContext.title}</h1>
           <div className="in-main-wrapper">
             <TableContents toc={pageContext.toc} />
           </div>
