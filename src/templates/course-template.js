@@ -7,7 +7,7 @@ import TableContents from "../components/table-contents"
 
 
 
-const Test = ({ children, pageContext, data }) => {
+const CourseTemplate = ({ children, pageContext, data }) => {
   const [showSidebar, setShowSidebar] = React.useState(false)
   const modules = data.allMdx.nodes
   console.log(pageContext)
@@ -83,7 +83,7 @@ const Test = ({ children, pageContext, data }) => {
           <div className="in-main-wrapper">
             <TableContents toc={pageContext.toc} />
           </div>
-          {/* {children} */}
+          {children}
         </main>
 
         <aside className="sidebar-right">
@@ -92,45 +92,9 @@ const Test = ({ children, pageContext, data }) => {
       </div>
     </div>
   )
-
-  // return (
-  //   <div className="post">
-  //     <header className="top-header">
-  //       <label 
-  //         className="expand-sidebar" 
-  //         htmlFor="sidebar-toggle" 
-  //         aria-label="Expand sidebar">
-  //         <span></span>
-  //       </label>
-  //       <Breadcrumbs />
-  //     </header>
-
-  //     <div className="main-wrapper">
-  //       {/* Left sidebar */}
-  //       <Sidebar 
-  //         show={showSidebar}
-  //         onToggle={toggleSidebar}
-  //         chapters={chapters} 
-  //         course={course}
-  //       />
-
-  //       {/* Main text */}
-  //       <main className="markdown">
-  //         <div className="in-main-wrapper">
-  //           <TableContents toc={toc} />
-  //         </div>
-  //         {children}
-  //       </main>
-
-  //       <aside className="sidebar-right">
-  //         <TableContents toc={toc} />
-  //       </aside>
-  //     </div>
-  //   </div>
-  // )
 }
 
-export default Test
+export default CourseTemplate
 
 /*
   Pega todos os arquivos do curso atual, na ordem do file system.
@@ -154,55 +118,3 @@ export const query = graphql`
     }
   }
 `
-
-// import * as React from "react"
-// import { Link, graphql } from 'gatsby'
-
-// import Course from "../templates/course"
-
-// const Home = ({ children, pageContext, data, location }) => {
-//   const { chapters, currentChapter } = data
-//   console.log(pageContext)
-
-//   return (
-//     <Course 
-//       chapters={chapters.nodes} 
-//       toc={currentChapter.tableOfContents.items} 
-//       location={location}
-//       course={currentChapter.frontmatter.course}
-//     >
-//       <h1>{pageContext.frontmatter.title}</h1>
-//       {pageContext.frontmatter.author}
-//       {children}
-//     </Course>
-//   )
-// } 
-
-// // Query data about the chapters.
-// /*
-//   contentFilePath: The folder directory to query for files.
-//   gatsbyPath: the url path generated for the file on the browser.
-
-//   toc: Table of contents
-// */
-// export const query = graphql`
-//   query ($id: String) {
-//     chapters: allMdx(filter: {internal: {contentFilePath: {regex: "/calculo-1/"}}}) {
-//       nodes {
-//         frontmatter {
-//           title
-//         }
-//         gatsbyPath(filePath: "{mdx.fields__slug}")
-//         id
-//       }
-//     }
-//     currentChapter: mdx(id: {eq: $id}) {
-//       frontmatter {
-//         course
-//       }
-//       tableOfContents
-//     }
-//   }
-// `
-
-// export default Home

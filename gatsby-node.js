@@ -1,6 +1,8 @@
 const path = require('path')
 const { createFilePath } = require(`gatsby-source-filesystem`)
 
+const courseTemplate = path.resolve("src/templates/course-template.js")
+
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions
 
@@ -19,7 +21,6 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
 
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
-  const template = path.resolve("src/templates/test.js")
 
   const result = await graphql(`
     query {
@@ -30,6 +31,9 @@ exports.createPages = async ({ graphql, actions }) => {
           }
           fields {
             slug
+          }
+          internal {
+            contentFilePath
           }
           id
           tableOfContents
@@ -46,7 +50,7 @@ exports.createPages = async ({ graphql, actions }) => {
 
     createPage({
       path: module.fields.slug,
-      component: template,
+      component: `${courseTemplate}?__contentFilePath=${module.internal.contentFilePath}`,
       context: {
         course: module.frontmatter.course,
         courseSlug,
