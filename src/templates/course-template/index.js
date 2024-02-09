@@ -1,16 +1,16 @@
 import * as React from "react"
 import { graphql, Link } from "gatsby"
 
-import Sidebar from "../components/sidebar"
-import Breadcrumbs from "../components/breadcrumbs"
-import TableContents from "../components/table-contents"
+import Sidebar from "../../components/sidebar"
+import Breadcrumbs from "../../components/breadcrumbs"
+import TableContents from "../../components/table-contents"
 
+import "./style.css"
 
 
 const CourseTemplate = ({ children, pageContext, data }) => {
   const [showSidebar, setShowSidebar] = React.useState(false)
   const modules = data.allMdx.nodes
-  console.log(pageContext)
   
   // Fill chapters object with data.
   const chapters = {}
