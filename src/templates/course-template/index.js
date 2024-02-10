@@ -14,20 +14,18 @@ const CourseTemplate = ({ children, pageContext, data }) => {
   const [showSidebar, setShowSidebar] = React.useState(false)
   const modules = data.allMdx.nodes
   
-  // Fill chapters object with data.
-  const chapters = {}
+  // key: the chapter, value: array of modules.
+  const chapterMap = {}
   modules.forEach(module => {
-    const moduleChapter = module.frontmatter.chapter
-    const moduleTitle = module.frontmatter.title
-    const slug = module.fields.slug
+    const { slug, title, chapter } = module.frontmatter
 
-    if (!chapters[moduleChapter]) {
-      chapters[moduleChapter] = []
+    if (!chapterMap[chapter]) {
+      chapterMap[chapter] = []
     }
 
-    chapters[moduleChapter].push({ 
+    chapterMap[chapter].push({ 
       id: module.id,
-      title: moduleTitle,
+      title,
       slug
     })
   })
@@ -55,12 +53,12 @@ const CourseTemplate = ({ children, pageContext, data }) => {
           title={pageContext.course}
         >
           {
-            Object.keys(chapters).map(chapterTitle => 
+            Object.keys(chapterMap).map(chapterTitle => 
               <ol key={chapterTitle}>
                 <h3>{chapterTitle}</h3>
 
                 {
-                  chapters[chapterTitle].map(module =>
+                  chapterMap[chapterTitle].map(module =>
                     <NavItem key={module.id} to={module.slug}>
                       {module.title}
                     </NavItem>
@@ -100,11 +98,9 @@ export const query = graphql`
     ) {
       nodes {
         frontmatter {
+          slug
           title
           chapter
-        }
-        fields {
-          slug
         }
         id
       }
