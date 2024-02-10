@@ -1,0 +1,33 @@
+.wrapper {
+  margin: 0 auto;
+}
+
+.blog-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.blog-wrapper header {
+  width: min(100%, 60rem);
+  padding: var(--padding-lg);
+}
+
+.blog-wrapper header .logo {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.blog-wrapper header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 3rem;
+}
+
+.blog-wrapper header nav {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+}
+

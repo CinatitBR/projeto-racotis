@@ -4,24 +4,35 @@
   height: 100vh;
 }
 
-.course-contents .title {
+.sidebar .title {
   color: var(--text-secondary);
   font-weight: bold;
   margin-bottom: 0.8rem;
 }
 
-.course-contents a {
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sidebar nav h3 {
+  margin: 0;
+  padding: 0.4rem 0;
+}
+
+.sidebar a {
   display: inline-block;
   color: var(--text-primary);
   padding: 0.4rem;
   width: 100%;
 }
 
-.course-contents a:hover {
+.sidebar a:hover {
   text-decoration: underline;
 }
 
-.course-contents a.selected {
+.sidebar a.selected {
   font-weight: bold;
   background-color: #413f68;
   border-radius: 0.5rem;

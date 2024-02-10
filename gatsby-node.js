@@ -2,6 +2,8 @@ const path = require('path')
 const { createFilePath } = require(`gatsby-source-filesystem`)
 
 const courseTemplate = path.resolve("src/templates/course-template/index.js")
+const blogTemplate = path.resolve("src/templates/blog-template/index.js")
+
 
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions
@@ -22,7 +24,8 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
 exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions
 
-  const result = await graphql(`
+  // Query course mdx files.
+  let result = await graphql(`
     query {
       allMdx(filter: {internal: {contentFilePath: {regex: "/courses/"}}}) {
         nodes {
@@ -44,7 +47,6 @@ exports.createPages = async ({ graphql, actions }) => {
   `)
 
   const modules = result.data.allMdx.nodes
-
   modules.forEach(module => {
     const pathParts = module.fields.slug.split("/")
     const courseSlug = `/${pathParts[1]}/${pathParts[2]}/`
@@ -59,6 +61,32 @@ exports.createPages = async ({ graphql, actions }) => {
         title: module.frontmatter.title,
         toc: module.tableOfContents.items,
       }
+    })
+  })
+
+  result = await graphql(`
+    query {
+      allMdx(filter: {internal: {contentFilePath: {regex: "/blog/"}}}) {
+        nodes {
+          id
+          fields {
+            slug
+          }
+          internal {
+            contentFilePath
+          }
+        }
+      }
+    }
+  `)
+
+  const blogNodes = result.data.allMdx.nodes
+
+  blogNodes.forEach(post => {
+    createPage({
+      path: post.fields.slug,
+      component: `${blogTemplate}?__contentFilePath=${post.internal.contentFilePath}`,
+      context: { id: post.id }
     })
   })
 }

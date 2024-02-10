@@ -1,9 +1,11 @@
 import * as React from "react"
-import { graphql, Link } from "gatsby"
+import { graphql } from "gatsby"
 
 import Sidebar from "../../components/sidebar"
 import Breadcrumbs from "../../components/breadcrumbs"
+import MarkdownTemplate from "../markdown-template"
 import TableContents from "../../components/table-contents"
+import NavItem from "../../components/navitem"
 
 import "./style.css"
 
@@ -11,7 +13,6 @@ import "./style.css"
 const CourseTemplate = ({ children, pageContext, data }) => {
   const [showSidebar, setShowSidebar] = React.useState(false)
   const modules = data.allMdx.nodes
-  let title, course
   
   // Fill chapters object with data.
   const chapters = {}
@@ -33,15 +34,6 @@ const CourseTemplate = ({ children, pageContext, data }) => {
 
   const toggleSidebar = () => setShowSidebar(!showSidebar)
   
-  /*
-    This function will be called by the Link component, to tell
-    if a link is active.
-    Read "Reach Router" documentation.
-  */
-  const isActive = ({ isCurrent }) => {
-    return isCurrent ? { className: "selected" } : {}
-  }
-
   return (
     <div className="post">
       {/* Olá amigo novamente. */}
@@ -58,9 +50,9 @@ const CourseTemplate = ({ children, pageContext, data }) => {
       <div className="main-wrapper">
         {/* Left sidebar */}
         <Sidebar
-        show={showSidebar}
-        onToggle={toggleSidebar}
-        title={pageContext.course}
+          show={showSidebar}
+          onToggle={toggleSidebar}
+          title={pageContext.course}
         >
           {
             Object.keys(chapters).map(chapterTitle => 
@@ -69,9 +61,9 @@ const CourseTemplate = ({ children, pageContext, data }) => {
 
                 {
                   chapters[chapterTitle].map(module =>
-                    <li key={module.id}>
-                      <Link to={module.slug} getProps={isActive}>{module.title}</Link>
-                    </li>
+                    <NavItem key={module.id} to={module.slug}>
+                      {module.title}
+                    </NavItem>
                   )
                 }
               </ol>
@@ -80,13 +72,12 @@ const CourseTemplate = ({ children, pageContext, data }) => {
         </Sidebar>
 
         {/* Main text */}
-        <main className="markdown">
-          <h1 className="title">{pageContext.title}</h1>
+        <MarkdownTemplate title={pageContext.title}>
           <div className="in-main-wrapper">
             <TableContents toc={pageContext.toc} />
           </div>
           {children}
-        </main>
+        </MarkdownTemplate>
 
         <aside className="sidebar-right">
           <TableContents toc={pageContext.toc} />

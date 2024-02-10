@@ -1,0 +1,22 @@
+li.nav-item {
+  list-style: none;
+}
+
+.nav-item a {
+  display: inline-block;
+  color: var(--text-primary);
+  padding: 0.4rem;
+  width: 100%;
+}
+
+.nav-item a:hover {
+  text-decoration: underline;
+}
+
+.nav-item a.selected {
+  font-weight: bold;
+  background-color: #413f68;
+  border-radius: 0.5rem;
+}
+
+

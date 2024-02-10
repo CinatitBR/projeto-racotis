@@ -21,12 +21,10 @@ const Sidebar = ({ children, show, onToggle, title }) => {
     </label>
 
     <aside className="sidebar">
-      <div className="course-contents">
-        <h2 className="title">{title}</h2>
-        <nav className="topics">
-          {children}
-        </nav>
-      </div>
+      <h2 className="title">{title}</h2>
+      <nav>
+        {children}
+      </nav>
     </aside>
   </React.Fragment>
 }
