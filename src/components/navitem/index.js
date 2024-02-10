@@ -8,8 +8,8 @@ import "./style.css"
   if a link is active.
   Read "Reach Router" documentation.
 */
-const isActive = ({ isCurrent }) => {
-  return isCurrent ? { className: "selected" } : {}
+const isActive = ({ isPartiallyCurrent }) => {
+  return isPartiallyCurrent ? { className: "selected" } : {}
 }
 
 const NavItem = ({ children, to }) => {
