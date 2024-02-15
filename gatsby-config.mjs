@@ -1,12 +1,29 @@
+import remarkMath from "remark-math"
+import rehypeKatex from "rehype-katex"
+
 /**
  * @type {import('gatsby').GatsbyConfig}
  */
-module.exports = {
+const config = {
   siteMetadata: {
     title: `My gatsby`,
     siteUrl: `https://www.yourdomain.tld`
   },
-  plugins: ["gatsby-plugin-image", "gatsby-plugin-mdx", "gatsby-plugin-sharp", "gatsby-transformer-sharp", 
+  plugins: ["gatsby-plugin-image", "gatsby-plugin-sharp", "gatsby-transformer-sharp", 
+  {
+    resolve: 'gatsby-plugin-mdx',
+    options: {
+      mdxOptions: {
+        remarkPlugins: [
+          remarkMath
+        ],
+        rehypePlugins: [
+          rehypeKatex, 
+          { strict: 'ignore' }
+        ],
+      } 
+    }
+  },
   {
     resolve: 'gatsby-source-filesystem',
     options: {
@@ -30,4 +47,7 @@ module.exports = {
       path: "./content/"
     }
   }]
-};
+}
+
+export default config
+

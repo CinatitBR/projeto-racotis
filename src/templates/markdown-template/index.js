@@ -1,5 +1,6 @@
 import * as React from "react"
 
+import 'katex/dist/katex.min.css' // Needed to render latex properly.
 import "./style.css"
 
 
