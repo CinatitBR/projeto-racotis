@@ -1,13 +1,133 @@
 ---
 slug: /blog/por-que-rolling-hash-funciona
 date: 09-02-2024
-title: "Por que o Rolling Hash funciona"
-author: Igor
+title: "Rabin-Karp: Explicando a Aritmética Modular"
+author: "Igor Rocha"
 tag: algoritmos
 ---
 
-## Este é um h2
-Eu estava estudando sobre 
+Eu estava estudando sobre o algoritmo Rabin-Karp quando me deparei com uma grande dúvida em relação à função hash: por que ela continua sendo verdade mesmo após a aplicação do operador de módulo? 
 
-### Este é um h3
-Novamente amigão hahaha
+Neste post, explico todas as respostas que encontrei ao pesquisar sobre.
+
+## A função de Hash
+
+Dada uma string T, a substring de tamanho n T[0..n-1] pode ser representada pelo polinômio:
+hash_0 = T[0]*B^(n-1) + T[1]*B^(n-2) + ... + T[n-1]
+onde T[i] é o código do caracter e B é um inteiro positivo. 
+
+Usando este polinômio, é como se estivéssemos associando à string um sistema nuḿerico de base B — ou seja, se os caracteres fazem parte do alfabeto latino de 26 letras a-z, é interessante usar B=26, assim estariamos descrevendo um sistema nuḿerico de 26 dígitos.
+
+Para encontrarmos o hash da próxima substring de tamanho n T[1..n], usamos a fórmula:
+hash_1 = [hash_0 - T[0]*B^(n-1)] * B + T[n]
+
+A relação de recorrência do hash é dada por:
+hash_n = [hash(n-1) - T[n-1]*B^(n-1)] * B + T[n]
+
+### A função hash com o módulo
+
+O valor do hash pode se tornar grande de mais quando n é grande. Uma estratégia para limitar o crescimento é aplicar o módulo por um número m. Então a fórmula ficaria:
+hash_0 = (T[0]*B^(n-1) + T[1]*B^(n-2) + ... + T[n-1]) mod m
+
+Aqui está o pulo do gato! A relação de recorrência é muito parecida, basta apenas colocar mod m na frente:
+hash_n = ([hash_(n-1) - T[n-1]*B^(n-1)] * B + T[n]) mod m
+
+A seguir, demonstro a corretude desta relação de recorrência.
+
+## Demonstrando a relação de recorrência com a aplicação do módulo
+
+
+Assuma que:
+x = T[0]*B^(n-1) + T[1]*B^(n-2) + ... + T[n-1]
+hash_0 = x mod m
+
+### Hipótese
+
+Dada a função $h(i)$ com recorrência:  
+$h(i+1) = (h(i) - T[i]b^{n-1})b + T[i+n]$  
+aplicando o módulo:  
+$h(i)\mod m = h_{mod}(i)$  
+a nova recorrência com o módulo é:  
+$h_{mod}(i+1) = [(h_{mod}(i) - T[i]b^{n-1})b + T[i + n]]\mod m$
+
+Perceba que a recorrência de $h_{mod}(i)$ é muito parecida com a recorrência de $h(i)$. Queremos demonstrar a recorrência de $h_{mod}(i+1)$.
+
+É necessário saber as seguintes propriedades:  
+(1) - $(a+b) \mod m = [(a \mod m) + (b \mod m)] \mod m$  
+(2) - $(a\cdot b) \mod m = [(a \mod m)(b \mod m)] \mod m$  
+(3) - $(a\mod m)\mod m = a\mod m$
+
+### Demonstração
+
+$$ 
+\begin{align*}
+h_{mod}(i+1) & = h(i+1) \mod m \\
+
+& = [(h(i) - T[i]b^{n-1})b + T[i+n]]\mod m \\
+\end{align*} 
+$$
+
+Defina $A = (h(i) - T[i]b^{n-1})b$:
+$$
+\begin{align*}
+h_{mod}(i+1) &= (A + T[i+n])\mod m \\
+
+&= (A\mod m + T[i+n]\mod m)\mod m \tag{I} \\
+& \text{(prop. 1)} 
+\end{align*}
+$$
+
+Trabalhando o termo $A\mod m$:
+$$
+\begin{align*}
+A\mod m &= (h(i) - T[i]b^{n-1})b \mod m \\
+
+&= [(h(i) - T[i]b^{n-1})\mod m \cdot b\mod m]\mod m \tag{II} \\
+
+& \text{(prop. 2)} 
+\end{align*}
+$$
+
+Trabalhando o termo $(h(i) - T[i]b^{n-1})\mod m$:
+$$
+\begin{align*}
+(h(i) - T[i]b^{n-1})\mod m &= (h(i)\mod m - T[i]b^{n-1}\mod m)\mod m \\
+
+& \text{(prop. 1)}  \\
+
+& = (h_{mod}(i)\mod m -T[i]b^{n-1}\mod m)\mod m \\
+
+& \text{(definição e prop. 3)} \\
+
+& = (h_{mod}(i) -T[i]b^{n-1})\mod m \tag{III}
+\end{align*}
+$$
+
+Aplicando (III) em (II):
+$$
+\begin{align*}
+A\mod m &= [(h_{mod}(i) -T[i]b^{n-1})\mod m \cdot b\mod m]\mod m \\
+
+& \text{(prop. 2)}  \\
+
+& = (h_{mod}(i) -T[i]b^{n-1})b\mod m \tag{IV}
+\end{align*}
+$$
+
+Aplicando (IV) em (I):
+$$
+\begin{align*}
+h_{mod}(i+1) &= [(h_{mod}(i) -T[i]b^{n-1})b + T[i+n]]\mod m \\
+\end{align*}
+$$
+
+## Generalização da demonstração
+
+É possível generalizar a demonstração acima para um grande número de polinômios: ou seja, após aplicar o módulo a um polinômio, a nova recorrência permanece muito parecida. 
+
+O nome da propriedade é **Polynomial Congruence Rule**, [clique aqui para ler sobre](https://math.stackexchange.com/questions/879251/congruence-arithmetic-laws-e-g-in-divisibility-by-7-test/879262#879262).
+
+
+Isto é importante pois torna fácil encontrar a equação de recorrência de um polônimo após aplicar o módulo ao final dele! 
+
+
